@@ -2,7 +2,7 @@
     <div class="page-shopping-cart" id="shopping-cart">
     <h4 class="cart-title">购物清单</h4>
     <div class="cart-product-title clearfix">
-        <div class="td-check fl"><input type="checkbox" :checked="isSelectAll"/>全选</div>
+        <div class="td-check fl"><input type="checkbox" :checked="isSelectAll" @click="selectProduct(isSelectAll)"/>全选</div>
         <div class="td-product fl">商品</div>
         <div class="td-num fl">数量</div>
         <div class="td-price fl">单价(元)</div>
@@ -12,7 +12,7 @@
     <div class="cart-product clearfix">
         <table>
             <tbody>
-                <tr v-for="item in productList" :key="item.id">
+                <tr v-for="(item,index) in productList" :key="item.id">
                  <td class="td-check"><input type="checkbox" :checked="item.select" @click="item.select=!item.select"/></td>
                 <td class="td-product"><img src="" width="98" height="98">
                     <div class="product-info">
@@ -36,12 +36,12 @@
                 <td class="td-total">
                     <p class="red-text">￥<span class="total-text">{{item.pro_price*item.pro_num}}</span>.00</p>
                 </td>
-                <td class="td-do"><a href="javascript:;" class="product-delect">删除</a></td>
+                <td class="td-do"><a href="javascript:;" class="product-delect" @click="deleteOneProduct(index)">删除</a></td>
             </tr>
             </tbody></table>
     </div>
     <div class="cart-product-info">
-        <a class="delect-product" href="javascript:;"><span></span>删除所选商品</a>
+        <a class="delect-product" href="javascript:;" @click="deleteProduct"><span></span>删除所选商品</a>
         <a class="keep-shopping" href="#"><span></span>继续购物</a>
         <a class="btn-buy fr" href="javascript:;">去结算</a>
         <p class="fr product-total">￥<span>{{getTotal.totalPrice}}</span></p>
@@ -98,7 +98,22 @@ export default {
       ]
     };
   },
-  methods: {},
+  methods: {
+    selectProduct:function(_isSelet){
+        let _this = this;
+        this.productList.forEach(function(item,i){
+        _this.productList[i].select = !_isSelet;
+        })
+    },
+    deleteProduct:function(){
+     this.productList = this.productList.filter(function(item){
+       return !item.select;
+     })
+    },
+    deleteOneProduct:function(index){
+      this.productList.splice(index,1)
+    }
+  },
   mounted: function() {
     let _this = this;
     this.productList.map(function(item) {
