@@ -1,11 +1,13 @@
 <template>
   <div id="app">
    <shoppingcart></shoppingcart>
+   <shopping-search></shopping-search>
   </div>
 </template>
 
 <script>
-import shoppingcart from "./components/shopping-cart"
+import shoppingcart from "./components/shopping-cart";
+import shoppingSearch from "./components/shopping-search";
 export default {
   name: 'app',
   data () {
@@ -14,7 +16,8 @@ export default {
     }
   },
   components:{
-    shoppingcart
+    shoppingcart,
+    shoppingSearch
   }
 }
 </script>
